@@ -13,9 +13,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var targetLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var roundLabel: UILabel!
+    
     var currentValue: Int = 0
     var targetValue = 0
     var score = 0
+    var round = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,14 +32,24 @@ class ViewController: UIViewController {
         let points = 100 - difference
         score += points
         
-        let message = "You scored \(points) points"
-                      "\nThe value of the slider is: \(currentValue)" +
-                      "\nThe target value is: \(targetValue)" +
-                      "\nThe difference is: \(difference)"
-        let alert = UIAlertController(title: "Hello, World", message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(action)
+        let title: String
+        if difference == 0 {
+            title = "Perfect!"
+        } else if difference < 5 {
+            title = "You almost had it!"
+        } else if difference < 10 {
+            title = "Pretty good!"
+        } else {
+            title = "Not even close..."
+        }
         
+        let message = "You scored \(points) points"
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        alert.addAction(action)
         present(alert, animated: true, completion: nil)
         
         startNewRound()
