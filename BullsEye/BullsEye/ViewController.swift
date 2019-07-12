@@ -20,45 +20,23 @@ class ViewController: UIViewController {
     var score = 0
     var round = 0
     
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let thumbImageNormal = UIImage(named: "SliderThumb-Normal")!
-        slider.setThumbImage(thumbImageNormal, for: .normal)
-        
-        let thumbImageHighlighted = UIImage(named: "SliderThumb-Highlighted")!
-        slider.setThumbImage(thumbImageHighlighted, for: .highlighted)
-        
-        let insets = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
-        
-        let trackLeftImage = UIImage(named: "SliderTrackLeft")!
-        let trackLeftResizalbe = trackLeftImage.resizableImage(withCapInsets: insets)
-        slider.setMinimumTrackImage(trackLeftResizalbe, for: .normal)
-        
-        let trackRightImage = UIImage(named: "SliderTrackRight")!
-        let trackRightResizable = trackRightImage.resizableImage(withCapInsets: insets)
-        slider.setMaximumTrackImage(trackRightResizable, for: .normal)
-        
+        setSlider()
         startNewRound()
     }
     
     // MARK: - IBAction
     
     @IBAction func showAlert() {
-        var difference: Int = abs(currentValue - targetValue)
+        let difference: Int = abs(currentValue - targetValue)
         let points = 100 - difference
         score += points
         round += 1
         
-        let title: String
-        if difference == 0 {
-            title = "Perfect!"
-        } else if difference < 5 {
-            title = "You almost had it!"
-        } else if difference < 10 {
-            title = "Pretty good!"
-        } else {
-            title = "Not even close..."
-        }
+        let title = getTitle(difference)
         
         let message = "You scored \(points) points"
         
@@ -90,7 +68,40 @@ class ViewController: UIViewController {
         scoreLabel.text = String(score)
         roundLabel.text = String(round)
     }
-
+    
+    private func getTitle(_ difference: Int) -> String {
+        var result = ""
+        switch difference {
+        case 0:
+            result = "Perfect!"
+        case 1...5:
+            result = "You almost had it!"
+        case 6...10:
+            result = "Pretty good!"
+        default:
+            result = "Not even close..."
+        }
+        
+        return result
+    }
+    
+    private func setSlider() {
+        let thumbImageNormal = UIImage(named: "SliderThumb-Normal")!
+        slider.setThumbImage(thumbImageNormal, for: .normal)
+        
+        let thumbImageHighlighted = UIImage(named: "SliderThumb-Highlighted")!
+        slider.setThumbImage(thumbImageHighlighted, for: .highlighted)
+        
+        let insets = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
+        
+        let trackLeftImage = UIImage(named: "SliderTrackLeft")!
+        let trackLeftResizalbe = trackLeftImage.resizableImage(withCapInsets: insets)
+        slider.setMinimumTrackImage(trackLeftResizalbe, for: .normal)
+        
+        let trackRightImage = UIImage(named: "SliderTrackRight")!
+        let trackRightResizable = trackRightImage.resizableImage(withCapInsets: insets)
+        slider.setMaximumTrackImage(trackRightResizable, for: .normal)
+    }
 
 }
 
