@@ -7,13 +7,21 @@
 //
 
 import UIKit
+import WebKit
 
 class AboutViewController: UIViewController {
+    
+    @IBOutlet weak var webView: WKWebView!
+    
+    // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        if let url = Bundle.main.url(forResource: "BullsEye", withExtension: "html") {
+            let request = URLRequest(url: url)
+            webView.load(request)
+        }
     }
     
     // MARK: - IBAction
