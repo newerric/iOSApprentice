@@ -54,6 +54,17 @@ class ViewController: UIViewController {
         print("The value of the slider is now: \(slider.value)")
     }
     
+    @IBAction func startNewGame() {
+        score = 0
+        round = 0
+        startNewRound()
+        let transition = CATransition()
+        transition.type = CATransitionType.fade
+        transition.duration = 1
+        transition.timingFunction = CAMediaTimingFunction(name: .easeOut)
+        view.layer.add(transition, forKey: nil)
+    }
+    
     // MARK: - Other Method
     
     private func startNewRound() {
